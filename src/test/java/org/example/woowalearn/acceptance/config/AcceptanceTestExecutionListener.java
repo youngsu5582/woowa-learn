@@ -16,7 +16,7 @@ public class AcceptanceTestExecutionListener extends AbstractTestExecutionListen
     public void beforeTestClass(final TestContext testContext) {
         RestAssured.port = Optional.ofNullable(testContext.getApplicationContext()
                         .getEnvironment()
-                        .getProperty("server.port", Integer.class))
+                        .getProperty("local.server.port", Integer.class))
                 .orElseThrow(() -> new IllegalStateException("localServerPort는 null일 수 없습니다."));
 
         RestAssured.config = RestAssured.config()
