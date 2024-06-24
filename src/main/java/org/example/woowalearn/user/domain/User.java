@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name = "member")
@@ -25,14 +26,19 @@ public class User {
 
     private boolean isEmailAccept;
 
-    public User(final Email email, final Password password, final boolean isEmailAccept) {
-        this.email = email;
-        this.password = password;
+    public User(final String email,final String password,final boolean isEmailAccept) {
+        this.email = new Email(email);
+        this.password = new Password(password);
         this.isEmailAccept = isEmailAccept;
         this.role = Role.MEMBER;
     }
+
     public boolean isMember(){
         return this.role == Role.MEMBER;
+    }
+
+    public boolean matchPassword(final PasswordEncoder encoder, final String password){
+        return this.password.matchPassword(encoder,password);
     }
 
     public String getEmailAsString() {
