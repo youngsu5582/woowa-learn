@@ -1,10 +1,9 @@
 package org.example.woowalearn.user.service;
 
-import org.example.woowalearn.user.domain.Email;
-import org.example.woowalearn.user.domain.Password;
 import org.example.woowalearn.user.domain.User;
 import org.example.woowalearn.user.dto.UserCreateRequest;
 import org.example.woowalearn.user.dto.UserResponse;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +17,10 @@ public class UserAssembler {
         );
     }
 
-    public User toEntity(final UserCreateRequest request) {
-        return new User(new Email(request.email()), new Password(request.password()), request.isEmailAccept());
+    public User toEntity(final UserCreateRequest request, final PasswordEncoder passwordEncoder) {
+        return new User(
+                request.email(),
+                passwordEncoder.encode(request.password()),
+                request.isEmailAccept());
     }
 }
