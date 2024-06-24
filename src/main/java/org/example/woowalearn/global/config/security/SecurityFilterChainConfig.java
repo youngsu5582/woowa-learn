@@ -28,7 +28,8 @@ public class SecurityFilterChainConfig {
 
         http.authorizeHttpRequests(request -> request.requestMatchers(
                         "/auth/login",
-                        "/auth/signup"
+                        "/auth/signup",
+                        "/page/**"
                 ).permitAll()
                 .anyRequest().authenticated());
 

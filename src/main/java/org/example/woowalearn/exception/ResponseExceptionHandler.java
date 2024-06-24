@@ -23,6 +23,7 @@ public class ResponseExceptionHandler  {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(final Exception e) {
+        log.debug("Server exception [errorMessage = {}, cause = {}]", e.getMessage(),e.getCause());
         return ResponseEntity.internalServerError()
                 .body(new ErrorResponse(e.getMessage()));
     }
