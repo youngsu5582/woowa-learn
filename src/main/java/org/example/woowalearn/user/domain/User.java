@@ -34,4 +34,8 @@ public class User {
     public boolean isMember(){
         return this.role == Role.MEMBER;
     }
+
+    public String getEmailAsString() {
+        return email.address();
+    }
 }

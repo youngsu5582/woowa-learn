@@ -18,7 +18,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public UserResponse signup(final UserCreateRequest request) {
         if (userRepository.existsByEmailAddress(request.email())) {
-            throw new WoowaLearnException(HttpStatus.NOT_FOUND, String.format("%s에 해당하는 이메일이 이미 있습니다.", request.email()));
+            throw new WoowaLearnException(HttpStatus.BAD_REQUEST, String.format("%s에 해당하는 이메일이 이미 있습니다.", request.email()));
         }
         final var user = userAssembler.toEntity(request);
         return userAssembler.toResponse(userRepository.save(user));
