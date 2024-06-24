@@ -1,12 +1,12 @@
 package org.example.woowalearn.user.controller;
 
 import lombok.AllArgsConstructor;
-import org.example.woowalearn.user.dto.TokenResponse;
-import org.example.woowalearn.user.dto.UserCreateRequest;
-import org.example.woowalearn.user.dto.UserLoginRequest;
-import org.example.woowalearn.user.dto.UserResponse;
+import org.example.woowalearn.user.domain.UserPrincipal;
+import org.example.woowalearn.user.dto.*;
 import org.example.woowalearn.user.service.AuthService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,5 +27,11 @@ public class AuthController {
     public ResponseEntity<TokenResponse> login(@RequestBody final UserLoginRequest request) {
         final var result = authService.login(request);
         return ResponseEntity.ok(result);
+    }
+    @GetMapping("/auth/check")
+    public ResponseEntity<CheckResponse> check(@AuthenticationPrincipal final UserPrincipal userPrincipal){
+        return ResponseEntity.ok(
+                new CheckResponse(userPrincipal.getUsername())
+        );
     }
 }

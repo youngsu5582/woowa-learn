@@ -6,11 +6,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.example.woowalearn.acceptance.step.given.AuthGivenStep.회원가입_정보_생성;
-import static org.example.woowalearn.acceptance.step.then.AuthThenStep.로그인_성공한지_검증;
-import static org.example.woowalearn.acceptance.step.then.AuthThenStep.회원가입_성공한지_검증;
+import static org.example.woowalearn.acceptance.step.then.AuthThenStep.*;
 import static org.example.woowalearn.acceptance.step.then.CommonThenStep.*;
-import static org.example.woowalearn.acceptance.step.when.AuthWhenStep.로그인;
-import static org.example.woowalearn.acceptance.step.when.AuthWhenStep.회원가입;
+import static org.example.woowalearn.acceptance.step.when.AuthWhenStep.*;
 
 @AcceptanceTest
 class AuthAcceptanceTest {
@@ -87,5 +85,18 @@ class AuthAcceptanceTest {
             잘못된_요청인지_검증(로그인_결과);
         }
     }
+    @Nested
+    @DisplayName("로그인 확인 케이스")
+    class checkCase{
+        @Test
+        void 유효한_토큰이_존재하면_토큰의_이메일을_알려준다(){
+            회원가입(회원가입_정보_생성(이메일, 비밀번호, 이메일_수신_동의));
+            final var 로그인_결과 = 로그인(이메일,비밀번호);
 
+            final var 결과 = 로그인_상태_체크(로그인_결과);
+
+            조회_성공한지_검증(결과);
+            로그인_상태와_이메일이_동일한지_검증(결과,이메일);
+        }
+    }
 }
