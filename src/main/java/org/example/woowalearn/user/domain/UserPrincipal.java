@@ -10,17 +10,20 @@ import java.util.List;
 public class UserPrincipal implements UserDetails {
     private final String email;
     private final String password;
+    private final long userId;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(final String email,final String password, final Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(final String email, final String password, final long userId, final Collection<? extends GrantedAuthority> authorities) {
         this.email = email;
         this.password = password;
+        this.userId = userId;
         this.authorities = authorities;
     }
     public static UserPrincipal from(final User user) {
         return new UserPrincipal(
                 user.getEmailAsString(),
                 user.getPassword().password(),
+                user.getId(),
                 List.of(new SimpleGrantedAuthority(user.getRole().name()))
         );
     }
@@ -38,6 +41,9 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+    public long getUserId() {
+        return userId;
     }
 
     @Override
