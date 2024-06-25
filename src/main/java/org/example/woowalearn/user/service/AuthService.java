@@ -19,6 +19,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordMatcher passwordMatcher;
     private final JwtProvider jwtProvider;
 
     @Transactional(readOnly = true)
@@ -37,7 +38,7 @@ public class AuthService {
         final User user = userRepository.findByEmailAddress(request.email())
                 .orElseThrow(()-> new WoowaLearnException(HttpStatus.BAD_REQUEST,String.format("%s는 존재하지 않는 이메일입니다.",request.email())));
 
-        if(!user.matchPassword(passwordEncoder,request.password())){
+        if(!passwordMatcher.matches(request.password(),user.getPassword())){
             throw new WoowaLearnException(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다.");
         }
 
