@@ -1,7 +1,0 @@
-logging:
-  level:
-    root: INFO
-    org.example.woowalearn: DEBUG
-
-server:
-  port: 11240
