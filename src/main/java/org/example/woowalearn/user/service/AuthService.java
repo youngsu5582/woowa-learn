@@ -27,19 +27,18 @@ public class AuthService {
         if (userRepository.existsByEmailAddress(request.email())) {
             throw new WoowaLearnException(HttpStatus.BAD_REQUEST, String.format("%s에 해당하는 이메일이 이미 있습니다.", request.email()));
         }
-
-        final var user = userAssembler.toEntity(request,passwordEncoder);
+        final var user = userAssembler.toEntity(request, passwordEncoder);
 
         return userAssembler.toResponse(userRepository.save(user));
     }
 
     @Transactional(readOnly = true)
-    public TokenResponse login(final UserLoginRequest request){
+    public TokenResponse login(final UserLoginRequest request) {
         final User user = userRepository.findByEmailAddress(request.email())
-                .orElseThrow(()-> new WoowaLearnException(HttpStatus.BAD_REQUEST,String.format("%s는 존재하지 않는 이메일입니다.",request.email())));
+                .orElseThrow(() -> new WoowaLearnException(HttpStatus.BAD_REQUEST, String.format("%s는 존재하지 않는 이메일입니다.", request.email())));
 
-        if(!passwordMatcher.matches(request.password(),user.getPassword())){
-            throw new WoowaLearnException(HttpStatus.BAD_REQUEST,"비밀번호가 일치하지 않습니다.");
+        if (!user.isEqualPassword(passwordEncoder, request.password())) {
+            throw new WoowaLearnException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
         }
 
         return jwtProvider.generateToken(user.getEmailAsString());
