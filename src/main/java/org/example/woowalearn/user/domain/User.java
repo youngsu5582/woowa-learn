@@ -26,44 +26,22 @@ public class User {
 
     private boolean isEmailAccept;
 
-    public User(final String email, final String password, final boolean isEmailAccept) {
+    public User(final String email,final String password,final boolean isEmailAccept) {
         this.email = new Email(email);
         this.password = new Password(password);
         this.isEmailAccept = isEmailAccept;
         this.role = Role.MEMBER;
     }
 
-    public User(final String email, final String password, final Role role, final boolean isEmailAccept) {
-        this.email = new Email(email);
-        this.password = new Password(password);
-        this.isEmailAccept = isEmailAccept;
-        this.role = role;
-    }
-
-    public boolean isEqualPassword(final PasswordEncoder encoder, final String password) {
-        return this.password.isEqual(password) || encoder.matches(password, getPasswordAsString());
-    }
-
-    public boolean isMember() {
+    public boolean isMember(){
         return this.role == Role.MEMBER;
+    }
+
+    public boolean matchPassword(final PasswordEncoder encoder, final String password){
+        return this.password.matchPassword(encoder,password);
     }
 
     public String getEmailAsString() {
         return email.address();
-    }
-
-    public String getPasswordAsString() {
-        return password.password();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email=" + email +
-                ", password=" + password +
-                ", role=" + role +
-                ", isEmailAccept=" + isEmailAccept +
-                '}';
     }
 }

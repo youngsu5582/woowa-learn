@@ -24,6 +24,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         } catch (final ExpiredJwtException exception) {
             setErrorResponse(response, new ErrorResponse("토큰 시간이 만료되었습니다."));
         } catch (final JwtException exception) {
+            System.out.println(exception.getMessage());
             setErrorResponse(response, new ErrorResponse("올바르지 않은 토큰입니다."));
         }
     }

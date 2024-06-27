@@ -33,6 +33,7 @@ public final class ControllerLoggingAspect {
             """)
     void loggingPointcut() {
     }
+
     private Optional<HttpServletRequest> getRequest() {
         return Optional.ofNullable(RequestContextHolder.getRequestAttributes())
                 .filter(ServletRequestAttributes.class::isInstance)
@@ -54,6 +55,7 @@ public final class ControllerLoggingAspect {
         final var startMillis = System.currentTimeMillis();
         final var result = joinPoint.proceed();
         final var elapsedMillis = System.currentTimeMillis() - startMillis;
+
         final Consumer<HttpServletRequest> httpServletRequestLogger = request -> log.debug(
                 "return [time={}, url={}, httpMethod={}, ip={}, class={}, method={}, hashcode={}, result={}, elapsedMillis={}]",
                 LocalDateTime.now(),

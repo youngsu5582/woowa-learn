@@ -1,6 +1,7 @@
 package org.example.woowalearn.user.domain;
 
 import jakarta.persistence.Embeddable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Embeddable
 public record Password(String password) {
@@ -8,8 +9,8 @@ public record Password(String password) {
     private static final IllegalArgumentException MIN_LENGTH_EXCEPTION =
             new IllegalArgumentException(String.format("%d보다 더 길게 입력해야합니다.",MIN_LENGTH));
 
-    public boolean isEqual(final String password) {
-        return this.password.equals(password);
+    public boolean matchPassword(final PasswordEncoder encoder, final String password) {
+        return encoder.matches(password,this.password);
     }
     public Password {
         validate(password);
@@ -19,5 +20,4 @@ public record Password(String password) {
             throw MIN_LENGTH_EXCEPTION;
         }
     }
-
 }
