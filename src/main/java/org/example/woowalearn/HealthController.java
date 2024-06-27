@@ -1,12 +1,13 @@
 package org.example.woowalearn;
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HealthController {
-    @RequestMapping("/health")
-    String check(){
-        return "OK";
+    private static final String HEALTH_MESSAGE="OK";
+
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok(HEALTH_MESSAGE);
     }
 }

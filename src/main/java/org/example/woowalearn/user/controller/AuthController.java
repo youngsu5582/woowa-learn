@@ -1,5 +1,7 @@
 package org.example.woowalearn.user.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.example.woowalearn.user.domain.UserPrincipal;
 import org.example.woowalearn.user.dto.*;
@@ -16,7 +18,7 @@ import java.net.URI;
 @RestController
 @AllArgsConstructor
 public class AuthController {
-    AuthService authService;
+    private final AuthService authService;
     @PostMapping("/auth/signup")
     public ResponseEntity<UserResponse> signUp(@RequestBody final UserCreateRequest request) {
         final var result = authService.signup(request);
@@ -24,8 +26,14 @@ public class AuthController {
                 .body(result);
     }
     @PostMapping("/auth/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody final UserLoginRequest request) {
+    public ResponseEntity<TokenResponse> login(@RequestBody final UserLoginRequest request, final HttpServletResponse response) {
         final var result = authService.login(request);
+
+        final Cookie cookie = new Cookie("token", result.accessToken());
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
         return ResponseEntity.ok(result);
     }
     @GetMapping("/auth/check")
