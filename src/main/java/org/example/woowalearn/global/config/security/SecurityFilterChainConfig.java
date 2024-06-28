@@ -1,6 +1,5 @@
 package org.example.woowalearn.global.config.security;
 
-import org.example.woowalearn.user.service.JwtProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

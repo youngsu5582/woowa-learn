@@ -1,4 +1,4 @@
-package org.example.woowalearn.user.service;
+package org.example.woowalearn.global.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

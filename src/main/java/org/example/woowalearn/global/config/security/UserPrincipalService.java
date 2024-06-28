@@ -1,4 +1,4 @@
-package org.example.woowalearn.user.service;
+package org.example.woowalearn.global.config.security;
 
 import lombok.AllArgsConstructor;
 import org.example.woowalearn.user.domain.UserPrincipal;

@@ -51,7 +51,7 @@ public class ApplyService {
     public ApplyResponse approveApply(final long adminId, final ApplyChangeRequest request) {
         validateAdmin(adminId);
         final ApplyForm form = applyFormRepository.getByIdOrThrow(request.applyId());
-        form.approve(request.approveDetail(), adminId);
+        form.approve(request.judgeDetail(), adminId);
         return toResponse(form);
     }
 
@@ -59,7 +59,7 @@ public class ApplyService {
     public ApplyResponse denyApply(final long adminId, final ApplyChangeRequest request) {
         validateAdmin(adminId);
         final ApplyForm form = applyFormRepository.getByIdOrThrow(request.applyId());
-        form.deny(request.approveDetail(), adminId);
+        form.deny(request.judgeDetail(), adminId);
         return toResponse(form);
     }
 

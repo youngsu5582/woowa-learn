@@ -20,7 +20,7 @@ public class AdminWhenStep {
         //@formatter:off
         return RestAssured.given().body(request).contentType(ContentType.JSON)
                 .header(new Header("Authorization","Bearer " + accessToken))
-                .when().post("/admin/apply/approve")
+                .when().post("/admin/apply/deny")
                 .then();
         //@formatter:on
     }
