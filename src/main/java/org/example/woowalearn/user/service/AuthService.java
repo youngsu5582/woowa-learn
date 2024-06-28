@@ -2,6 +2,7 @@ package org.example.woowalearn.user.service;
 
 import lombok.AllArgsConstructor;
 import org.example.woowalearn.exception.WoowaLearnException;
+import org.example.woowalearn.global.config.security.JwtProvider;
 import org.example.woowalearn.user.domain.User;
 import org.example.woowalearn.user.dto.TokenResponse;
 import org.example.woowalearn.user.dto.UserCreateRequest;
@@ -19,7 +20,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final UserAssembler userAssembler;
     private final PasswordEncoder passwordEncoder;
-    private final PasswordMatcher passwordMatcher;
     private final JwtProvider jwtProvider;
 
     @Transactional(readOnly = true)
