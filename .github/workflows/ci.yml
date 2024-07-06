@@ -39,13 +39,23 @@ jobs:
         run: ./gradlew --info test
 
       - name: Publish test results
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
-          files: '**/build/test-results/test/TEST-*.xml'
-
+          name: junit-test-results
+          path: '**/build/test-results/test/TEST-*.xml'
+          retention-days: 1
+          
+      - name: Download Test Report
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name: junit-test-results
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          
       - name: Publish test report
         uses: mikepenz/action-junit-report@v4
         if: always()
         with:
+          commit: ${{github.event.workflow_run.head_sha}}
           report_paths: '**/build/test-results/test/TEST-*.xml'
